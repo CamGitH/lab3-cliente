@@ -1,4 +1,3 @@
-
 import socket
 import os
 import hashlib
@@ -14,16 +13,16 @@ SEPARATOR = "SEPARATOR"
 BUFFER_SIZE = 1024
 
 #Nombre log
-LOG_FILENAME = datetime.now().strftime('./Logs/%Y_%m_%d_%H_%M_%S_CLI.log')
+LOG_FILENAME = datetime.now().strftime('./Logs/%Y_%m_%d_%H_%M_%S.log')
 
 #Array vacio de conecciones
 conexiones = []
 
-#Array vacio con tiempos de entrega del archivo
-tiempos = []
-
 #Array vacio con variable que indica si la transmisión fue exitosa o no
 exitos = []
+
+#Array vacio con tiempos de entrega del archivo
+tiempos = []
 
 #Variable para cerrar conexiones
 fin = False
@@ -42,6 +41,7 @@ def md5(connection, fname, hashrecibido):
             if not data:
                 break
             md5.update(data)
+
     if (format(md5.hexdigest()) == hashrecibido):
         mssg = b'Los valores son iguales'
         exito = 1
@@ -97,6 +97,7 @@ def createSocket(i, num_clientes):
                     f.write(bytes_read.decode('ISO-8859-1'))
         finally:
             f.close()
+            time.sleep(1)
             received = sock.recv(BUFFER_SIZE).decode('ISO-8859-1')
             md5(sock,var,received)
             fin = True
